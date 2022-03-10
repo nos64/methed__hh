@@ -143,6 +143,11 @@ const getData = ({search} = {}) => {
   return fetch('http://localhost:3000/api/vacancy').then(response => response.json())
 }
 
+const declOfNum = (n, titles) => {
+  return n + ' ' + titles[n % 10 === 1 && n % 100 !== 11 ?
+    0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2];
+};
+
 const formSearch =  document.querySelector('.bottom__search');
 const found = document.querySelector('.found');
 const foundItem = document.querySelector('.found__item');
@@ -158,7 +163,7 @@ formSearch.addEventListener('submit', async (e) => {
     const data = await getData({search: textSearch});
     renderCards(data);
   
-    found.textContent = `${data.length} ваканский ${foundItem.textContent = textSearch}`
+    found.textContent = `${declOfNum(data.length, ['вакансия', 'вакансии', 'ваканский'])} "${textSearch}"`
    
     formSearch.reset();
   } else {
